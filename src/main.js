@@ -21,35 +21,6 @@ async function saveActivities() {
     console.error('Error saving to server', err);
   }
 }
-
-async function loadActivities() {
-  try {
-    const res = await fetch('/api/data');
-    if (!res.ok) throw new Error('Failed to fetch data from server');
-    const data = await res.json();
-    subjects = data.subjects || [];
-    activities = data.activities || {};
-  } catch (err) {
-    console.error(err);
-    const savedActs = localStorage.getItem('calendarActivities');
-    if (savedActs) activities = JSON.parse(savedActs);
-    const savedSubs = localStorage.getItem('calendarSubjects');
-    if (savedSubs) subjects = JSON.parse(savedSubs);
-  }
-}
-
-//function saveActivities() {
-//  localStorage.setItem('calendarActivities', JSON.stringify(activities));
-//  localStorage.setItem('calendarSubjects', JSON.stringify(subjects));
-//}
-
-//function loadActivities() {
-//  const savedActs = localStorage.getItem('calendarActivities');
-//  if (savedActs) activities = JSON.parse(savedActs);
-//  const savedSubs = localStorage.getItem('calendarSubjects');
-//  if (savedSubs) subjects = JSON.parse(savedSubs);
-//}
-
 function getIconHTML(subject) {
   const colorClass = subject.colorClass || 'level-blue';
   const level = subject.level || '';
@@ -300,7 +271,7 @@ const yearInput = document.getElementById('yearInput');
 const monthInput = document.getElementById('monthInput');
 if (yearInput) yearInput.addEventListener('input', () => generateCalendar('yearInput','monthInput'));
 if (monthInput) monthInput.addEventListener('input', () => generateCalendar('yearInput','monthInput'));
-
+init();
 loadActivities();
 generateCalendar('yearInput','monthInput');
 generateDraggableList();
