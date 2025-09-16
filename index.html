@@ -1,48 +1,95 @@
-body {
-  font-family: 'Kanit', sans-serif;
-  margin: 0; padding: 0; background: #f0f2f5; color: #333;
-}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ปฏิทินกิจกรรม</title>
+</head>
+<body>
 
-.main-container {
-  display: flex; gap: 20px; padding: 20px;
-}
+<h1 class="sr-only">ปฏิทิน</h1>
 
-.control-panel {
-  width: 300px; background: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
+<div class="main-container">
+  <div class="control-panel">
+    <h2>แผงควบคุม</h2>
 
-.input-row {
-  margin-bottom: 10px;
-  display: flex; flex-direction: column;
-}
+    <div class="input-container">
+      <div class="input-row">
+        <label for="yearInput">ปี ค.ศ.:</label>
+        <input type="number" id="yearInput" value="2025" min="1900" max="3000">
+      </div>
+      <div class="input-row">
+        <label for="monthInput">เดือน (1-12):</label>
+        <input type="number" id="monthInput" value="7" min="1" max="12">
+      </div>
+      <div class="btn-row">
+        <button id="refreshBtn" class="secondary">รีเฟรชข้อมูล</button>
+      </div>
+      <button id="downloadBtn" class="primary full">ดาวน์โหลดปฏิทิน</button>
+    </div>
 
-.input-row label { margin-bottom: 4px; font-weight: 500; }
+    <h3>เพิ่มวิชาใหม่</h3>
+    <div class="input-container">
+      <div class="input-row">
+        <label for="newTitle">ชื่อวิชา:</label>
+        <input type="text" id="newTitle">
+      </div>
 
-button.full { width: 100%; padding: 8px; margin-top: 10px; cursor: pointer; }
+      <div class="input-row">
+        <span>ระดับ:</span>
+        <label><input type="radio" name="level" value="A"> A</label>
+        <label><input type="radio" name="level" value="S"> S</label>
+        <label><input type="radio" name="level" value="M"> M</label>
+        <label><input type="radio" name="level" value="L"> L</label>
+      </div>
 
-.draggable-items { list-style: none; padding: 0; margin: 0; }
+      <div class="input-row">
+        <span>สี (รูปแบบเรียน):</span>
+        <label class="color-radio blue">
+          <input type="radio" name="color" value="blue">
+          <span title="ออนไลน์ (Google Meet)"></span>
+        </label>
+        <label class="color-radio red">
+          <input type="radio" name="color" value="red">
+          <span title="เรียนที่ Academy"></span>
+        </label>
+      </div>
 
-.draggable-item {
-  display: flex; align-items: center; gap: 10px; background: #f4f4f4;
-  padding: 6px 8px; margin-bottom: 6px; border-radius: 6px; cursor: grab;
-}
+      <div class="input-row two">
+        <div>
+          <label for="newStartTime">เวลาเริ่ม:</label>
+          <input type="time" id="newStartTime">
+        </div>
+        <div>
+          <label for="newEndTime">เวลาสิ้นสุด:</label>
+          <input type="time" id="newEndTime">
+        </div>
+      </div>
 
-.calendar-container {
-  flex: 1;
-}
+      <button id="addSubjectBtn" class="full">เพิ่มวิชา</button>
+    </div>
 
-.calendar-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    <h3>รายการกิจกรรม</h3>
+    <ul class="draggable-items" id="draggableList"></ul>
+  </div>
 
-.calendar-table th, .calendar-table td { border: 1px solid #ccc; padding: 6px; text-align: center; vertical-align: top; }
+  <div class="calendar-container">
+    <div id="exportArea">
+      <div class="hero">
+        <img id="heroBanner" src="banners/banner-8.png" alt="Banner เดือน">
+      </div>
 
-.level-icon { display: inline-block; width: 20px; height: 20px; border-radius: 50%; text-align: center; font-size: 12px; color: #fff; line-height: 20px; }
+      <div id="calendarDisplay"></div>
 
-.level-A { background: #3498db; } 
-.level-S { background: #2ecc71; } 
-.level-M { background: #f1c40f; } 
-.level-L { background: #e74c3c; }
+      <div class="calendar-footer">
+        <img src="banners/footer.png" alt="Footer Image">
+      </div>
+    </div>
+  </div>
+</div>
 
-.level-blue { background: #3498db !important; }
-.level-red { background: #e74c3c !important; }
+<script type="module" src="/src/main.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
-.activity-item { display: flex; gap: 6px; margin-top: 4px; padding: 2px; border-radius: 4px; background: #e0f0ff; cursor: grab; }
+</body>
+</html>
