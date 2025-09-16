@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ปฏิทินกิจกรรม</title>
+  <link rel="stylesheet" href="/src/style.css" />
+  <style>
+    header.user-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+      background: #f4f4f4;
+      flex-wrap: wrap;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    header.user-header h1 { font-size: 22px; margin: 0; }
+    .header-right { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
+    .calendar-filters { display: flex; align-items: center; gap: 8px; }
+    .calendar-filters label { font-weight: 500; font-size: 14px; }
+    .calendar-filters select {
+      padding: 8px 12px; border-radius: 8px; border: 1px solid #ccc;
+      font-size: 14px; cursor: pointer; transition: all 0.2s ease;
+    }
+    .calendar-filters select:hover { border-color: #3498db; box-shadow: 0 2px 6px rgba(52, 152, 219, 0.2); }
+    .btn-login {
+      padding: 8px 14px; border-radius: 8px; background: #3498db; color: #fff;
+      text-decoration: none; font-weight: 500; transition: all 0.2s ease;
+    }
+    .btn-login:hover { background: #2980b9; }
+    @media (max-width: 600px) {
+      .calendar-filters { flex-direction: column; align-items: flex-start; }
+      .header-right { gap: 10px; }
+    }
+
+    .hero { position: relative; width: 100%; overflow: visible; }
+    .hero img { width: 100%; height: auto; display: block; }
+    
+    .calendar-footer img {
+      width: 100%;
+      height: auto;
+      display: block;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<h1 class="sr-only">ปฏิทิน</h1>
+
+<div class="main-container">
+  <div class="control-panel">
+    <h2>แผงควบคุม</h2>
+
+    <div class="input-container">
+      <div class="input-row">
+        <label for="yearInput">ปี ค.ศ.:</label>
+        <input type="number" id="yearInput" value="2025" min="1900" max="3000">
+      </div>
+      <div class="input-row">
+        <label for="monthInput">เดือน (1-12):</label>
+        <input type="number" id="monthInput" value="7" min="1" max="12">
+      </div>
+
+      <div class="btn-row">
+        <button id="refreshBtn" class="secondary">รีเฟรชข้อมูล</button>
+      </div>
+      <button id="downloadBtn" class="primary full">ดาวน์โหลดปฏิทิน</button>
+    </div>
+
+    <h3>เพิ่มวิชาใหม่</h3>
+    <div class="input-container">
+      <div class="input-row">
+        <label for="newTitle">ชื่อวิชา:</label>
+        <input type="text" id="newTitle" placeholder="">
+      </div>
+
+      <div class="input-row">
+        <span>ระดับ:</span>
+        <label><input type="radio" name="level" value="A"> A</label>
+        <label><input type="radio" name="level" value="S"> S</label>
+        <label><input type="radio" name="level" value="M"> M</label>
+        <label><input type="radio" name="level" value="L"> L</label>
+      </div>
+
+      <div class="input-row">
+        <span>สี (รูปแบบเรียน):</span>
+        <label class="color-radio blue">
+          <input type="radio" name="color" value="blue">
+          <span title="ออนไลน์ (Google Meet)"></span>
+        </label>
+        <label class="color-radio red">
+          <input type="radio" name="color" value="red">
+          <span title="เรียนที่ Academy"></span>
+        </label>
+      </div>
+
+      <div class="input-row two">
+        <div>
+          <label for="newStartTime">เวลาเริ่ม:</label>
+          <input type="time" id="newStartTime">
+        </div>
+        <div>
+          <label for="newEndTime">เวลาสิ้นสุด:</label>
+          <input type="time" id="newEndTime">
+        </div>
+      </div>
+
+      <button id="addSubjectBtn" class="full">เพิ่มวิชา</button>
+    </div>
+
+    <h3>รายการกิจกรรม</h3>
+    <ul class="draggable-items" id="draggableList"></ul>
+  </div>
+
+  <div class="calendar-container">
+    <div id="exportArea">
+      <div class="hero">
+        <img id="heroBanner" src="banners/banner-8.png" alt="Banner เดือน">
+      </div>
+
+      <div id="calendarDisplay"></div>
+
+      <div class="calendar-footer">
+        <img src="banners/footer.png" alt="Footer Image">
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script type="module" src="/src/main.js"></script>
+
+<script>
+  const monthInput = document.getElementById("monthInput");
+  const heroBanner = document.getElementById("heroBanner");
+
+  function updateBanner() {
+    const month = parseInt(monthInput.value) || 1;
+    heroBanner.src = `banners/banner-${month}.png`;
+  }
+
+  monthInput.addEventListener("input", updateBanner);
+  window.addEventListener("load", updateBanner);
+</script>
+
+</body>
+</html>
