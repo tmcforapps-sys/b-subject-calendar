@@ -306,5 +306,39 @@ const yearInput = document.getElementById('yearInput');
 const monthInput = document.getElementById('monthInput');
 if (yearInput) yearInput.addEventListener('input', () => generateCalendar('yearInput','monthInput'));
 if (monthInput) monthInput.addEventListener('input', () => generateCalendar('yearInput','monthInput'));
+// ---- banner section ----
+const hero = document.querySelector('.hero');
+const monthInput = document.getElementById('monthInput');
+
+const monthBanners = {
+  1: '/banner_jan.jpg',
+  2: '/banner_feb.jpg',
+  3: '/banner_mar.jpg',
+  4: '/banner_apr.jpg',
+  5: '/banner_may.jpg',
+  6: '/banner_jun.jpg',
+  7: '/banner_jul.jpg',
+  8: '/banner_aug.jpg',
+  9: '/banner_sep.jpg',
+  10: '/banner_oct.jpg',
+  11: '/banner_nov.jpg',
+  12: '/banner_dec.jpg',
+};
+
+function updateHeroBanner() {
+  const month = parseInt(monthInput.value) || 1;
+  if (monthBanners[month]) {
+    hero.style.backgroundImage = `url('${monthBanners[month]}')`;
+    hero.style.backgroundSize = 'cover';
+    hero.style.backgroundPosition = 'center';
+  }
+}
+
+// เรียกตอนโหลดหน้า
+updateHeroBanner();
+
+// เรียกเมื่อผู้ใช้เปลี่ยนเดือน
+monthInput.addEventListener('input', updateHeroBanner);
+
 
 init();
