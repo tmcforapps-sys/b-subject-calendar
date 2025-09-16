@@ -1,3 +1,4 @@
+import './style.css'
 let subjects = [];
 let activities = {};
 async function saveActivities() {
@@ -21,6 +22,40 @@ async function saveActivities() {
     console.error('Error saving to server', err);
   }
 }
+
+async function loadActivities() {
+  try {
+    const res = await fetch('/api/data');
+    if (!res.ok) throw new Error('Failed to fetch data from server');
+    const data = await res.json();
+    subjects = data.subjects || [];
+    activities = data.activities || {};
+  } catch (err) {
+    console.error(err);
+    const savedActs = localStorage.getItem('calendarActivities');
+    if (savedActs) activities = JSON.parse(savedActs);
+    const savedSubs = localStorage.getItem('calendarSubjects');
+    if (savedSubs) subjects = JSON.parse(savedSubs);
+  }
+}
+
+async function init() {
+  await loadActivities();
+
+  const yearInput = document.getElementById('yearInput');
+  const monthInput = document.getElementById('monthInput');
+
+  if (yearInput && !yearInput.value) yearInput.value = new Date().getFullYear();
+  if (monthInput && !monthInput.value) monthInput.value = new Date().getMonth() + 1;
+
+  generateCalendar('yearInput','monthInput');
+  generateDraggableList();
+
+  // Event listener ให้ input เปลี่ยนเดือน/ปี สร้างตารางใหม่
+  if (yearInput) yearInput.addEventListener('input', () => generateCalendar('yearInput','monthInput'));
+  if (monthInput) monthInput.addEventListener('input', () => generateCalendar('yearInput','monthInput'));
+}
+
 function getIconHTML(subject) {
   const colorClass = subject.colorClass || 'level-blue';
   const level = subject.level || '';
@@ -271,7 +306,5 @@ const yearInput = document.getElementById('yearInput');
 const monthInput = document.getElementById('monthInput');
 if (yearInput) yearInput.addEventListener('input', () => generateCalendar('yearInput','monthInput'));
 if (monthInput) monthInput.addEventListener('input', () => generateCalendar('yearInput','monthInput'));
+
 init();
-loadActivities();
-generateCalendar('yearInput','monthInput');
-generateDraggableList();
