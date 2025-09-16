@@ -1,4 +1,6 @@
 import './style.css'
+let subjects = [];
+let activities = {};
 async function saveActivities() {
   try {
     console.log("Saving subjects", subjects);
