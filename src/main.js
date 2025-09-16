@@ -308,7 +308,6 @@ if (yearInput) yearInput.addEventListener('input', () => generateCalendar('yearI
 if (monthInput) monthInput.addEventListener('input', () => generateCalendar('yearInput','monthInput'));
 // ---- banner section ----
 const hero = document.querySelector('.hero');
-const monthInput = document.getElementById('monthInput');
 
 const monthBanners = {
   1: '/banner_jan.jpg',
