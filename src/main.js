@@ -1,4 +1,3 @@
-import './style.css'
 let subjects = [];
 let activities = {};
 async function saveActivities() {
